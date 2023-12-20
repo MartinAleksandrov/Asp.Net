@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyWebSite.Models;
-using System.Diagnostics;
-
-namespace MyWebSite.Controllers
+﻿namespace MyWebSite.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using MyWebSite.Models;
+    using System.Diagnostics;
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
