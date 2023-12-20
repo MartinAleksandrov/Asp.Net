@@ -15,6 +15,8 @@ namespace My_First_MVC_Project.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Message = "Greetings from me!";
+
             return View();
         }
 
