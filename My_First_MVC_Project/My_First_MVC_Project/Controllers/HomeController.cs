@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using My_First_MVC_Project.Models;
+using My_First_MVC_Project.ViewModels;
 using System.Diagnostics;
 
 namespace My_First_MVC_Project.Controllers
@@ -13,11 +14,21 @@ namespace My_First_MVC_Project.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(TextViewModel model)
         {
-            ViewBag.Message = "Greetings from me!";
+            return View(model);
+        }
 
-            return View();
+        [HttpPost]
+        public IActionResult Split(TextViewModel model)
+        {
+            var splitText = model.TextToSplit
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .ToArray();
+
+            model.SplitText = string.Join(Environment.NewLine, splitText);
+
+            return RedirectToAction("Index",model);
         }
 
         public IActionResult Privacy()
