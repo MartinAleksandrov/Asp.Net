@@ -13,9 +13,9 @@
 
         public DbSet<Book> Books { get; set; } = null!;
 
-        public Category Categories { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
 
-        public IdentityUserBook IdentityUserBooks { get; set; } = null!;
+        public DbSet<IdentityUserBook> IdentityUserBooks { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

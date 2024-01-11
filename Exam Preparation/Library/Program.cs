@@ -1,6 +1,8 @@
 using Library.Data;
+using Library.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Library.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<LibraryDbContext>();
 
+
 builder.Services.Configure<IdentityOptions>(opt =>
 {
     //Password options
@@ -23,6 +26,7 @@ builder.Services.Configure<IdentityOptions>(opt =>
 });
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IBookService, BookService>();
 
 var app = builder.Build();
 
