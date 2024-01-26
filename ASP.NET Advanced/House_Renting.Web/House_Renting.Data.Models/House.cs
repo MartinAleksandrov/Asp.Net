@@ -30,6 +30,8 @@
         [MaxLength(ImgMaxLength)]
         public string ImageUrl { get; set; } = null!;
 
+        public DateTime CreatedOn { get; set; }
+
         public decimal PricePerMonth { get; set; }
 
 

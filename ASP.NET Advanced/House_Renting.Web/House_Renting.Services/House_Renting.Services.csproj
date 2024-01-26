@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HouseRenting.Common\HouseRenting.Common.csproj" />
+    <ProjectReference Include="..\House_Renting.Data.Models\House_Renting.Data.Models.csproj" />
+    <ProjectReference Include="..\House_Renting.Data\House_Renting.Data.csproj" />
+    <ProjectReference Include="..\House_Renting.Web.ViewModels\House_Renting.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

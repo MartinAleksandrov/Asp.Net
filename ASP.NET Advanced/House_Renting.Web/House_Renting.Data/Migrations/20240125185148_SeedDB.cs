@@ -1,10 +1,7 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
-
+﻿#nullable disable
 namespace House_Renting.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
     public partial class SeedDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

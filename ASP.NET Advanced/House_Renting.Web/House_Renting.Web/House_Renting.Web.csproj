@@ -19,7 +19,9 @@
     <ProjectReference Include="..\HouseRenting.Common\HouseRenting.Common.csproj" />
     <ProjectReference Include="..\House_Renting.Data.Models\House_Renting.Data.Models.csproj" />
     <ProjectReference Include="..\House_Renting.Data\House_Renting.Data.csproj" />
+    <ProjectReference Include="..\House_Renting.Services\House_Renting.Services.csproj" />
     <ProjectReference Include="..\House_Renting.Web.ViewModels\House_Renting.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\House_Renting.Wrb.Infrastructure\House_Renting.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
