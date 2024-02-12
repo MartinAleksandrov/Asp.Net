@@ -1,4 +1,6 @@
 using Homies.Data;
+using Homies.Services;
+using Homies.Services.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +21,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 })
     .AddEntityFrameworkStores<HomiesDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IEventService, EventService>();
 
 var app = builder.Build();
 
