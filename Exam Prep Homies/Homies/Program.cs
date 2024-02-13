@@ -22,7 +22,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     .AddEntityFrameworkStores<HomiesDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IEventService, EventService>();
+//builder.Services.AddScoped<IEventService, EventService>();
 
 var app = builder.Build();
 

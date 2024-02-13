@@ -5,8 +5,8 @@
     {
         public Task<List<AllEventsViewModel>> AllEvents();
 
-        public Task<bool> JoinEvent(int Id);
+        public Task<bool> JoinEvent(int Id,string userId);
 
-        public Task<List<AllEventsViewModel>> JoinedEvents();
+        public Task<List<AllEventsViewModel>> JoinedEvents(string userId);
     }
 }
