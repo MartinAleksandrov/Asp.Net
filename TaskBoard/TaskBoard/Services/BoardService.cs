@@ -40,6 +40,69 @@
             return true;
         }
 
+        public async Task<bool> DeleteTask(int id,string userId)
+        {
+            var task = await GetTask(id);
+
+            if (task == null)
+            {
+                return false;
+            }
+
+            if (task.OwnerId != userId)
+            {
+                return false;
+            }
+
+            context.Tasks.Remove(task);
+            await context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<TaskFormViewModel> EditTask(int id)
+        {
+            var task = await GetTask(id);
+
+            if (task == null)
+            {
+                return null!;
+            }
+
+            var viewModel = new TaskFormViewModel()
+            {
+                Title = task.Title,
+                Description = task.Description,
+                BoardId = task.BoardId,
+                Boards = await GetBoards(),
+                OwnerId = task.OwnerId
+
+            };
+
+            return viewModel;
+        }
+        public async Task<bool> IsEdited(int id,string userId, TaskFormViewModel viewModel)
+        {
+            var task = await GetTask(id);
+
+            if (task == null)
+            {
+                return false;
+            }
+
+            if (task.OwnerId != userId)
+            {
+                return false;
+            }
+
+            task.Title = viewModel.Title;
+            task.Description = viewModel.Description;
+            task.BoardId = viewModel.BoardId;
+
+            await context.SaveChangesAsync();
+
+            return true;
+        }
         public async Task<IEnumerable<BoardViewModel>> GetAllTasks()
         {
             var model = await context
@@ -76,6 +139,55 @@
                     Name = b.Name
                 })
                 .ToListAsync();
+        }
+
+        public async Task<TaskViewModel> GetCurrentTask(int id)
+        {
+            var task = await GetTask(id);
+
+            if (task == null)
+            {
+                return null!;
+            }
+            var model = new TaskViewModel()
+            {
+                Id = task!.Id,
+                Title = task.Title,
+                Description = task.Description,
+                OwnerId = task!.OwnerId
+            };
+
+            return model;
+        }
+
+       
+
+        public async Task<TaskDetailsViewModel> TaskDetails(int id)
+        {
+            var model = await context
+                .Tasks
+                .AsNoTracking()
+                .Where(t => t.Id == id)
+                .Select(t => new TaskDetailsViewModel()
+                {
+                    Id = t.Id,
+                    Title = t.Title,
+                    Description = t.Description,
+                    Owner = t.Owner.UserName,
+                    CreatedOn = t.CreatedOn.ToString("yyyy-MM-dd HH-mm"),
+                    Board = t.Board!.Name
+
+                }).FirstOrDefaultAsync();
+
+
+            return model!;
+        }
+
+        private async Task<Task> GetTask(int id)
+        {
+            var task = await context.Tasks.FindAsync(id);
+
+            return task!;
         }
     }
 }

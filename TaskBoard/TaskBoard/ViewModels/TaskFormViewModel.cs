@@ -22,6 +22,9 @@
         [Display(Name ="Board")]
         public int BoardId { get; set; }
 
+        public string? OwnerId { get; set; }
+
+
         public IEnumerable<TaskBoardViewModel> Boards { get; set;}
     }
 }
