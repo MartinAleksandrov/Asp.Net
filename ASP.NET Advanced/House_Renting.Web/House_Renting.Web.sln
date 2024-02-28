@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "House_Renting.Web.ViewModel
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{FBC5AC1E-185B-410A-9BB9-0BAEF42AE403}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "House_Renting.Services", "House_Renting.Services\House_Renting.Services.csproj", "{116CBEA2-6974-403E-9FC9-5B773E177A1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "House_Renting.Services", "House_Renting.Services\House_Renting.Services.csproj", "{116CBEA2-6974-403E-9FC9-5B773E177A1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "House_Renting.Web.Infrastructure", "House_Renting.Wrb.Infrastructure\House_Renting.Web.Infrastructure.csproj", "{186A7CD9-040D-43A1-B939-70E2900C2744}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "House_Renting.Web.Infrastructure", "House_Renting.Wrb.Infrastructure\House_Renting.Web.Infrastructure.csproj", "{186A7CD9-040D-43A1-B939-70E2900C2744}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

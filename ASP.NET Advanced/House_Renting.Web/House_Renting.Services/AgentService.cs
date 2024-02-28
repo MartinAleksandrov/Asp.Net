@@ -33,6 +33,17 @@
             return result;
         }
 
+        public async Task<string?> GetAgentIdByUserIdAsync(string userId)
+        {
+            Agent? agent = await dbContext.Agents.FirstOrDefaultAsync(a => a.UserId.ToString() == userId);
+
+            if (agent == null)
+            {
+                return null;
+            }
+            return agent.Id.ToString();
+        }
+
         public async Task Create(string userId, BecomeAgentViewModel model)
         {
             Agent newAgent = new Agent()

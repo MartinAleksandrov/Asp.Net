@@ -5,6 +5,7 @@ namespace House_Renting.Web
     using Microsoft.EntityFrameworkCore;
     using Infrastructure.Extensions;
     using House_Renting.Services.Interfaces;
+    using House_Renting.Web.Infrastructure.ModelBinders;
 
     public class Program
     {
@@ -39,7 +40,11 @@ namespace House_Renting.Web
 
             builder.Services.AddApplicationServices(typeof(IHouseService));
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews()
+                .AddMvcOptions(opt =>
+                {
+                    opt.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                });
 
             WebApplication app = builder.Build();
 

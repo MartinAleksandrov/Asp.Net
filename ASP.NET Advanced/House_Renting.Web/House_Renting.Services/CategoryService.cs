@@ -16,6 +16,12 @@
             dbContext = context;
         }
 
+        public async Task<bool> ExistById(int id)
+        {
+            var result = await dbContext.Categories.AnyAsync(c => c.Id == id);
+
+            return result;
+        }
         public async Task<IEnumerable<CategoryViewModel>> AllCategoriesAsync()
         {
             var allCategories = await dbContext.Categories

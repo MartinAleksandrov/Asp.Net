@@ -8,5 +8,7 @@
         Task<bool> UserHasRentsAsync(string userId);
         Task Create(string userId, BecomeAgentViewModel model);
 
+        Task<string?> GetAgentIdByUserIdAsync(string userId);
+
     }
 }

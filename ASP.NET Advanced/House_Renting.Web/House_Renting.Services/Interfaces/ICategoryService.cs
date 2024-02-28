@@ -4,5 +4,7 @@
     public interface ICategoryService
     {
         Task<IEnumerable<CategoryViewModel>> AllCategoriesAsync();
+        Task<bool> ExistById(int id);
+
     }
 } 
