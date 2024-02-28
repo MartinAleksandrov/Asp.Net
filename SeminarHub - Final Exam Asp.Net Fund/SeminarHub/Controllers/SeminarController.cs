@@ -7,6 +7,7 @@
     using SeminarHub.Data.Models;
     using SeminarHub.Extensions;
     using SeminarHub.Models;
+    using System.Globalization;
     using static SeminarHub.Utilities.GlobalConstants.SeminarConstants;
 
     [Authorize]
@@ -34,8 +35,6 @@
                     Lecturer = s.Lecturer,
                     DateAndTime = s.DateAndTime.ToString("dd/MM/yyyy HH:mm"),
                     Organizer = s.Organizer.UserName
-
-
                 }).ToListAsync();
 
             return View(viewModels);
@@ -281,7 +280,7 @@
                 Topic = s.Topic,
                 Lecturer = s.Lecturer,
                 Details = s.Details,
-                DateAndTime = s.DateAndTime.ToString(dateFormat),
+                DateAndTime = s.DateAndTime.ToString(dateFormat,CultureInfo.InvariantCulture),
                 Duration = s.Duration,
                 CategoryId = s.CategoryId
             };
