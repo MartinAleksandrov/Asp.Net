@@ -3,7 +3,6 @@
     using House_Renting.Data;
     using House_Renting.Services.Interfaces;
     using House_Renting.Web.ViewModels.Category;
-    using House_Renting.Web.ViewModels.House;
     using Microsoft.EntityFrameworkCore;
 
     public class CategoryService : ICategoryService
@@ -34,6 +33,13 @@
                 .ToArrayAsync();
 
             return allCategories;
+        }
+
+        public async Task<IEnumerable<string>> AllCategoryNamesAsync()
+        {
+            var allNames = await dbContext.Categories.Select(c => c.Name).ToArrayAsync();
+
+            return allNames;
         }
     }
 }

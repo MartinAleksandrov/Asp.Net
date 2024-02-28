@@ -7,6 +7,7 @@
     using static HouseRenting.Common.NotificationMessagesConstants;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore.Metadata.Internal;
+    using Microsoft.EntityFrameworkCore.Query;
 
     [Authorize]
     public class HouseController : Controller
@@ -24,9 +25,14 @@
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery]AllHousesQueryModel queryModel)
         {
-            return View();
+            var serviceModel = await houseService.AllAync(queryModel);
+            queryModel.Houses = serviceModel.Houses;
+            queryModel.TotalHouses = serviceModel.TotalHousesCount;
+            queryModel.Categories = await categoryService.AllCategoryNamesAsync();
+
+            return View(queryModel);
         }
 
         [HttpGet]
