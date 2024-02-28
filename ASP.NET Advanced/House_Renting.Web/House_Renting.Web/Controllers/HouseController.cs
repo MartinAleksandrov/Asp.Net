@@ -24,6 +24,7 @@
             this.houseService = houseService;
         }
 
+        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery]AllHousesQueryModel queryModel)
         {
@@ -97,6 +98,51 @@
             return RedirectToAction("All","House");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Mine()
+        {
+            List<HouseAllViewModel> myHouses =
+                new List<HouseAllViewModel>();
 
+            string userId = User.GetId()!;
+            bool isUserAgent = await agentService
+                .AgentExistByUserIdAsync(userId);
+
+            try
+            {
+                //if (User.IsAdmin())
+                //{
+                //    string? agentId =
+                //        await agentService.GetAgentIdByUserIdAsync(userId);
+
+                //    // Added houses as an Agent
+                //    myHouses.AddRange(await houseService.AllByAgentIdAsync(agentId!));
+
+                //    // Rented houses as user
+                //    myHouses.AddRange(await houseService.AllByUserIdAsync(userId));
+
+                //    myHouses = myHouses
+                //        .DistinctBy(h => h.Id)
+                //        .ToList();
+                //}
+                if (isUserAgent)
+                {
+                    string? agentId =
+                        await agentService.GetAgentIdByUserIdAsync(userId);
+
+                    myHouses.AddRange(await houseService.AllByAgentIdAsync(agentId!));
+                }
+                else
+                {
+                    myHouses.AddRange(await houseService.AllByUserIdAsync(userId));
+                }
+
+                return View(myHouses);
+            }
+            catch (Exception)
+            {
+                return Ok();
+            }
+        }
     }
 }

@@ -58,6 +58,7 @@
             };
 
             var allHouses = await housesQuery
+                .Where(h => h.IsActive)
                 .Skip((queryModel.CurrentPage - 1) * queryModel.HousesPerPage)
                 .Take(queryModel.HousesPerPage)
                 .Select(h => new HouseAllViewModel
@@ -78,6 +79,47 @@
                 TotalHousesCount = totalHouses,
                 Houses = allHouses
             };
+        }
+
+        public async Task<IEnumerable<HouseAllViewModel>> AllByAgentIdAsync(string agentId)
+        {
+            IEnumerable<HouseAllViewModel> allAgentHouses = await dbContext
+                .Houses
+                .Where(h => h.IsActive &&
+                            h.AgentId.ToString() == agentId)
+                .Select(h => new HouseAllViewModel
+                {
+                    Id = h.Id.ToString(),
+                    Title = h.Title,
+                    Address = h.Address,
+                    ImageUrl = h.ImageUrl,
+                    PricePerMonth = h.PricePerMonth,
+                    IsRented = h.RenterId.HasValue
+                })
+                .ToArrayAsync();
+
+            return allAgentHouses;
+        }
+
+        public async Task<IEnumerable<HouseAllViewModel>> AllByUserIdAsync(string userId)
+        {
+            IEnumerable<HouseAllViewModel> allUserHouses = await dbContext
+                .Houses
+                .Where(h => h.IsActive &&
+                            h.RenterId.HasValue &&
+                            h.RenterId.ToString() == userId)
+                .Select(h => new HouseAllViewModel
+                {
+                    Id = h.Id.ToString(),
+                    Title = h.Title,
+                    Address = h.Address,
+                    ImageUrl = h.ImageUrl,
+                    PricePerMonth = h.PricePerMonth,
+                    IsRented = h.RenterId.HasValue
+                })
+                .ToArrayAsync();
+
+            return allUserHouses;
         }
 
         public async Task CreateAsync(HouseFormModel formModel,string agentId)

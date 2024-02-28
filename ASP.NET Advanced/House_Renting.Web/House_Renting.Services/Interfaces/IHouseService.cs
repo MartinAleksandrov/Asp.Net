@@ -11,5 +11,9 @@
         Task CreateAsync(HouseFormModel formModel, string agentId);
 
         Task<AllHousesfilteredAndPagedServiceModel> AllAync(AllHousesQueryModel queryModel);
+
+        Task<IEnumerable<HouseAllViewModel>> AllByAgentIdAsync(string agentId);
+        Task<IEnumerable<HouseAllViewModel>> AllByUserIdAsync(string userId);
+
     }
 }

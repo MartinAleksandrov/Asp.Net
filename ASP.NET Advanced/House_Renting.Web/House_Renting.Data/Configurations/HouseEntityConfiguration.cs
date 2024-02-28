@@ -10,7 +10,7 @@
         {
             builder
                 .Property(h => h.CreatedOn)
-                .HasDefaultValue(DateTime.UtcNow);
+                .HasDefaultValue(DateTime.Now);
 
             builder.HasOne(h => h.Category)
                 .WithMany(c => c.Houses)
@@ -21,6 +21,9 @@
                 .WithMany(a => a.ManagedHouses)
                 .HasForeignKey(a => a.AgentId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(h => h.IsActive)
+                .HasDefaultValue(true);
 
             builder.HasData(GenerateHouses());
         }
