@@ -4,7 +4,7 @@
     using House_Renting.Web.Infrastructure.Extensions;
     using House_Renting.Web.ViewModels.House;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Components.Web;
+    using static HouseRenting.Common.NotificationMessagesConstants;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
@@ -32,7 +32,9 @@
 
             if (isAgent)
             {
-                TempData
+                TempData[ErrorMessage] = "You must become an agent in order to add new houses";
+
+                return RedirectToAction("Become", "Agent");
             }
             
             HouseFormModel houseFormModel = new HouseFormModel()
