@@ -1,12 +1,13 @@
 ﻿namespace House_Renting.Services
 {
     using House_Renting.Data;
-    using House_Renting.Data.Models;
+    using Data.Models;
     using House_Renting.Services.DataModels.House;
     using House_Renting.Services.Interfaces;
-    using House_Renting.Web.ViewModels.Home;
-    using House_Renting.Web.ViewModels.House;
-    using House_Renting.Web.ViewModels.House.Enums;
+    using House_Renting.Web.ViewModels.Agent;
+    using Web.ViewModels.Home;
+    using Web.ViewModels.House;
+    using Web.ViewModels.House.Enums;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -122,7 +123,7 @@
             return allUserHouses;
         }
 
-        public async Task CreateAsync(HouseFormModel formModel,string agentId)
+        public async Task<string> CreateAsync(HouseFormModel formModel,string agentId)
         {
             var newHouse = new House()
             {
@@ -138,6 +139,117 @@
             await dbContext.Houses.AddAsync(newHouse);
             await dbContext.SaveChangesAsync();
 
+            return newHouse.Id.ToString();
+        }
+
+        public async Task DeleteHouseByIdAsync(string houseId)
+        {
+            var housesToDelete = await dbContext.Houses.Where(h => h.IsActive).FirstAsync(h => h.Id.ToString() == houseId);
+
+            housesToDelete.IsActive = false;
+
+            await dbContext.SaveChangesAsync();
+
+        }
+
+        public async Task EditHouseByIdAndFormModelAsync(string houseId, HouseFormModel formModel)
+        {
+            House house = await dbContext
+                           .Houses
+                           .Where(h => h.IsActive)
+                           .FirstAsync(h => h.Id.ToString() == houseId);
+
+            house.Title = formModel.Title;
+            house.Address = formModel.Address;
+            house.Description = formModel.Description;
+            house.ImageUrl = formModel.ImageUrl;
+            house.PricePerMonth = formModel.PricePerMonth;
+            house.CategoryId = formModel.CategoryId;
+
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> ExistsByIdAsync(string houseId)
+        {
+            bool result = await dbContext
+                            .Houses
+                            .Where(h => h.IsActive)
+                            .AnyAsync(h => h.Id.ToString() == houseId);
+
+            return result;
+        }
+
+        public async Task<HouseDetailsViewModel?> GetDetailsByIdAsync(string houseId)
+        {
+            House? house = await dbContext.Houses
+                .Include(h => h.Category)
+                .Include(h => h.Agent)
+                .ThenInclude(a => a.User)
+                .Where(h => h.IsActive)
+                .FirstOrDefaultAsync(h => h.Id.ToString() == houseId);
+
+            if (house == null)
+            {
+                return null;
+            }
+
+            return new HouseDetailsViewModel()
+            {
+                Id = house.Id.ToString(),
+                Title = house.Title,
+                Address = house.Address,
+                Description = house.Description,
+                ImageUrl = house.ImageUrl,
+                IsRented = house.RenterId.HasValue,
+                Category = house.Category.Name,
+                Agent = new AgentInfoOnHouseViewModel()
+                {
+                    Email = house.Agent.User.Email,
+                    PhoneNumber = house.Agent.PhoneNumber
+                }
+            };
+        }
+
+        public async Task<HousePreDeleteDetailsViewModel> GetHouseForDeleteByIdAsync(string houseId)
+        {
+            House house = await dbContext
+                            .Houses
+                            .Where(h => h.IsActive)
+                            .FirstAsync(h => h.Id.ToString() == houseId);
+
+            return new HousePreDeleteDetailsViewModel
+            {
+                Title = house.Title,
+                Address = house.Address,
+                ImageUrl = house.ImageUrl
+            };
+        }
+
+        public async Task<HouseFormModel> GetHouseForEditByIdAsync(string houseId)
+        {
+            House house = await dbContext
+                          .Houses
+                          .Include(h => h.Category)
+                          .Where(h => h.IsActive)
+                          .FirstAsync(h => h.Id.ToString() == houseId);
+
+            return new HouseFormModel
+            {
+                Title = house.Title,
+                Address = house.Address,
+                Description = house.Description,
+                ImageUrl = house.ImageUrl,
+                PricePerMonth = house.PricePerMonth,
+                CategoryId = house.CategoryId,
+            };
+        }
+
+        public async Task<bool> IsAgentWithIdOwnerOfHouseWithIdAsync(string houseId, string agentId)
+        {
+            var house = await dbContext.Houses.Where(h => h.IsActive)
+                .FirstAsync(h => h.Id.ToString() == houseId);
+
+            return house.AgentId.ToString() == agentId;
         }
 
         public async Task<IEnumerable<IndexViewModel>> LastFreeHousesAsync()
