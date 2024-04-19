@@ -24,5 +24,7 @@
         public virtual ApplicationUser User { get; set; } = null!;
 
         public ICollection<House> ManagedHouses { get; set; }
+
+        public enum MyEnum { get; set; }
     }
 }
